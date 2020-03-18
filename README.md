@@ -48,7 +48,7 @@ the data, using a first order Markov prediction model.
 
 ## License
 
-FASTQ_Cle is available under the terms of the GPLv3. See COPYING for more information.
+FASTQ_Cle is available under the terms of the MIT. See COPYING for more information.
 
 ## Bugs and Feedback
 
