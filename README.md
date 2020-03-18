@@ -15,11 +15,19 @@ FASTQ_Cle is used from the command line.
 
 The general compression command is:
 
-```cle (options) [input file] [output file]```
+```python3 cle (options) [input file] [output file]```
+
 
 The general decompression command is:
 
-```decle (options) [input file] [output file]```
+```python3 decle (options) [input file] [output file]```
+
+If you wish, you can use the pypy compiler.
+
+```pypy decle (options) [input file] [output file]```
+
+```pypy cle (options) [input file] [output file]```
+
 
 Input and output must be files, currently it does not process standard input or output.
 
