@@ -3,71 +3,76 @@ import argparse
 import math
 
 if __name__ == "__main__":
-    print("START scoring_qual")
+    
+    print("START checking_quality")
+    
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', help='input file path')
     parser.add_argument('-o', help='input file path')
-    
+    parser.add_argument('-qT', help='Use # as a threshold of letter percentage on quality (default : 5)', default=1)
+
     args = parser.parse_args()
 
-    in_f_name = args.i    
-    in_f = open(in_f_name, 'r')
+    in_f_name = args.i   
+    out_f_name = args.o
+    checking_threshold = int(args.qT)
 
-    out_f_name_seq = args.o
-    output_file_seq = open(out_f_name_seq, 'w')
+    in_f = open(in_f_name, 'r')
+    out_f = open(out_f_name, 'w')
     
-    seq_cnt_list = [0 for i in range(130)] 
-    total_seq_cnt = 0
-    count = 0
-    while True:
-        first_line = in_f.readline()
+    quality_total_count = 0
+    qualities_count = [0 for i in range(130)] 
         
-        if not first_line:
+    while True:
+        line = in_f.readline()
+        if not line:
             break
 
-        read_1_seq = first_line.split("\n")[0]
-                
-        line_length = len(read_1_seq)
-        total_seq_cnt = total_seq_cnt + line_length
-        for i in range(0, line_length):
-            seq_cnt_list[ord(read_1_seq[i])] = seq_cnt_list[ord(read_1_seq[i])] + 1 
+        quality = line.split("\n")[0]
+        quality_length = len(quality)
+        quality_total_count = quality_total_count + quality_length
+        
+        for i in range(0, quality_length):
+            qualities_count[ord(quality[i])] = qualities_count[ord(quality[i])] + 1 
 
-    check_ord_list = list()
+    priority_qualities = list()
     
-    for i in range(len(seq_cnt_list)):
-        index = len(seq_cnt_list) - i -1
-        if((seq_cnt_list[index]/(total_seq_cnt+1))*100>1):
-            count = count + seq_cnt_list[index]
-            check_ord_list.append(index)
+    for i in range(len(qualities_count)-1,0):
+        if((qualities_count[i]/(quality_total_count+1))*100 > checking_threshold):
+            priority_qualities.append(index)
+    
+    print("END checking_quality")
+    print("START scoring_quality")
     
     in_f.seek(0)
     while True:
-        first_line = in_f.readline()
+        line = in_f.readline()
 
-        if not first_line:
+        if not line:
             break
         
-        read_1_seq = first_line.split("\n")[0]
-        line_length = len(read_1_seq)
-        seq_cnt_list = [0 for i in range(130)]   
+        quality = line.split("\n")[0]
+        quality_length = len(quality)
+        qualities_counts = [0 for i in range(130)]   
     
-        for i in range(0, line_length):
-            seq_cnt_list[ord(read_1_seq[i])] = seq_cnt_list[ord(read_1_seq[i])] + 1
+        for i in range(0, quality_length):
+            qualities_counts[ord(quality[i])] = qualities_counts[ord(quality[i])] + 1
                       
-        for i in check_ord_list:
-            score = round(seq_cnt_list[i]/(line_length+1)*10)
-            output_file_seq.write(str(score)) 
-        for i in check_ord_list:
-            score = round(seq_cnt_list[i]/(line_length+1)*80)
+        for i in priority_qualities:
+            score = round(qualities_counts[i]/(quality_length+1)*10)
+            out_f.write(str(score)) 
+            
+        for i in priority_qualities:
+            score = round(qualities_counts[i]/(quality_length+1)*80)
             if (score == 0):
-                output_file_seq.write("00") 
+                out_f.write("00") 
             elif (score < 10):
-                output_file_seq.write("0") 
-                output_file_seq.write(str(score)) 
+                out_f.write("0") 
+                out_f.write(str(score)) 
             else: 
-                output_file_seq.write(str(score)) 
-        output_file_seq.write("\n")
+                out_f.write(str(score)) 
+        out_f.write("\n")
 
     in_f.close()    
-    output_file_seq.close()
-    print("END scoring_qual")
+    out_f.close()
+    print("END scoring_quality")
