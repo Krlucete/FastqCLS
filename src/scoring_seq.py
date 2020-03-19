@@ -3,82 +3,85 @@ import argparse
 import math
 
 if __name__ == "__main__":
-    print("START scoring_seq")
+    
+    print("START checking_sequence")
+    
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', help='input file path')
-    parser.add_argument('-o', help='input file path')
-    
+    parser.add_argument('-o', help='output file path')
+    parser.add_argument('-sT', help='Use # as a threshold of letter percentage on raw sequence (default : 5)', default=5)
     args = parser.parse_args()
 
     in_f_name = args.i    
+    out_f_name = args.o
+    checking_threshold = int(args.sT)
+
     in_f = open(in_f_name, 'r')
-
-    out_f_name_seq = args.o
-    output_file_seq = open(out_f_name_seq, 'w')
+    out_f = open(out_f_name, 'w')
     
-    seq_cnt_list = [0 for i in range(130)] 
-    total_seq_cnt = 0
-    count = 0
-    
-    while True:
-        first_line = in_f.readline()
-        
-        if not first_line:
-            break
-#         if(total_seq_cnt==100):
-#             break
-        
-        read_1_seq = first_line.split("\n")[0]
-                
-        line_length = len(read_1_seq)
-        total_seq_cnt = total_seq_cnt + line_length
-        for i in range(0, line_length):
-            seq_cnt_list[ord(read_1_seq[i])] = seq_cnt_list[ord(read_1_seq[i])] + 1 
-
-    check_ord_list = list()
-    sort_check_ord_list = list()
-    sort_check_ord = list()
-    
-    for i in range(len(seq_cnt_list)):
-        if((seq_cnt_list[i]*100/(total_seq_cnt+1))>5):
-            tmp = [seq_cnt_list[i],i]
-            count = count + seq_cnt_list[i]
-            check_ord_list.append(tmp)
-    
-    sort_check_ord_list = sorted(check_ord_list, reverse=True)
-    
-    for i in range(len(sort_check_ord_list)-1):
-        sort_check_ord.append(sort_check_ord_list[i][1])
+    base_total_count = 0
+    bases_count = [0 for i in range(130)] 
  
+    while True:
+        line = in_f.readline()
+        if not line:
+            break
+        
+        raw_sequence = line.split("\n")[0]
+        raw_sequence_length = len(raw_sequence)
+        base_total_count = base_total_count + raw_sequence_length
+        
+        for i in range(0, raw_sequence_length):
+            bases_count[ord(raw_sequence[i])] = bases_count[ord(raw_sequence[i])] + 1 
+
+            
+    scoring_bases_and_count = list()
+    priority_scoring_bases_and_count = list()
+    priority_bases = list()
+
+    for i in range(len(bases_count)):
+        if(( bases_count[i] * 100 / (base_total_count+1) ) > checking_threshold):
+            scoring_bases_and_count.append([bases_count[i],i])
+    
+    priority_scoring_bases_and_count = sorted(scoring_bases_and_count, reverse=True)
+    
+    for i in range(len(priority_scoring_bases_and_count)-1):
+        priority_bases.append(priority_scoring_bases_and_count[i][1])
+
+    print("END checking_sequence")
+    print("START scoring_sequence")
+
     in_f.seek(0)
     while True:
-        first_line = in_f.readline()
-
-        if not first_line:
+        line = in_f.readline()
+        if not line:
             break
         
-        read_1_seq = first_line.split("\n")[0]
-        line_length = len(read_1_seq)
-        seq_cnt_list = [0 for i in range(130)]   
+        raw_sequence = line.split("\n")[0]
+        raw_sequence_length = len(raw_sequence)
+        bases_count = [0 for i in range(130)]   
     
-        for i in range(0, line_length):
-            seq_cnt_list[ord(read_1_seq[i])] = seq_cnt_list[ord(read_1_seq[i])] + 1
+        for i in range(0, raw_sequence_length):
+            bases_count[ord(raw_sequence[i])] = bases_count[ord(raw_sequence[i])] + 1
                       
-        for i in sort_check_ord:
-            score = round(seq_cnt_list[i]/(line_length+1)*5)
-            output_file_seq.write(str(score)) 
-        for i in sort_check_ord:
-            score = round(seq_cnt_list[i]/(line_length+1)*25)
+        for i in priority_bases:
+            score = round(bases_count[i]/(raw_sequence_length+1)*5)
+            out_f.write(str(score)) 
+            
+        for i in priority_bases:
+            score = round(bases_count[i]/(raw_sequence_length+1)*25)
             if (score == 0):
-                output_file_seq.write("00") 
+                out_f.write("00") 
             elif (score < 10):
-                output_file_seq.write("0") 
-                output_file_seq.write(str(score)) 
+                out_f.write("0") 
+                out_f.write(str(score)) 
             else: 
-                output_file_seq.write(str(score)) 
-        output_file_seq.write("\n")
+                out_f.write(str(score)) 
+                
+        out_f.write("\n")
 
     in_f.close()    
-    output_file_seq.close()
-    print("END scoring_seq")
+    out_f.close()
+    
+    print("END scoring_sequence")
 
