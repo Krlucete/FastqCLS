@@ -7,7 +7,7 @@ import random
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', help='input file path')
-    parser.add_argument('-t', help='num of threads', default='8')
+    parser.add_argument('-t', help='num of threads', default='0')
     args = parser.parse_args()
     
     
@@ -36,10 +36,10 @@ if __name__ == '__main__':
     command = "rm -f " + output + ".aa"
     subprocess.check_call(command, shell=True)
     
-    command = "pypy scoring_seq.py -i " + output + "/ab -o " + output + "/score_seq"
+    command = "python3 scoring_seq.py -i " + output + "/ab -o " + output + "/score_seq -sT 5"
     subprocess.check_call(command, shell=True)
 
-    command = "pypy scoring_qual.py -i " + output + "/ad -o " + output + "/score_qual"
+    command = "python3 scoring_qual.py -i " + output + "/ad -o " + output + "/score_qual -qT 1"
     subprocess.check_call(command, shell=True)
     
     command = "paste -d' ' " + output + "/ab " + output +"/id_front " + output + "/score_seq | sort -k3 -k1 > " + output + "/sort_seq"
@@ -70,10 +70,10 @@ if __name__ == '__main__':
     command = "rm -rf " + output
     subprocess.check_call(command, shell=True)
     
-    command = "rm -f " + input.split(sep=".")[0] + ".abc_zpaq"
+    command = "rm -f " + input.split(sep=".")[0] + ".cle"
     subprocess.check_call(command, shell=True)
     
-    command = "zpaq -m5 a " + input.split(sep=".")[0] +".abc_zpaq "+input.split(sep=".")[0]+".sorted_seq_id "+input.split(sep=".")[0]+".sorted_qual_id "+input.split(sep=".")[0]+".id_back "+input.split(sep=".")[0]+".sorted_seq "+input.split(sep=".")[0]+".sorted_qual "+input.split(sep=".")[0]+".third_line"
+    command = "zpaq -m5 a " + input.split(sep=".")[0] +".cle "+input.split(sep=".")[0]+".sorted_seq_id "+input.split(sep=".")[0]+".sorted_qual_id "+input.split(sep=".")[0]+".id_back "+input.split(sep=".")[0]+".sorted_seq "+input.split(sep=".")[0]+".sorted_qual "+input.split(sep=".")[0]+".third_line"
     subprocess.check_call(command, shell=True)    
    
  
