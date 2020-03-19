@@ -20,7 +20,7 @@ The general compression command is:
 
 The general decompression command is:
 
-```python3 decle (options) -i [input file] ```
+```python3 cle_decomp (options) -i [input file] ```
 
 If you wish, you can use the pypy compiler.
 
