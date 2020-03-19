@@ -7,7 +7,7 @@ import random
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', help='input file path')
-    parser.add_argument('-t', help='num of threads', default='8')
+    parser.add_argument('-t', help='num of threads', default='0')
     args = parser.parse_args()
     
     input = args.i
@@ -49,7 +49,7 @@ if __name__ == '__main__':
     command = "rm -f "+input.split(sep=".")[0]+".id_back"
     subprocess.check_call(command, shell=True)   
     
-    command = "paste -d '\n' " + output + ".id " + output + ".seq " + input.split(sep=".")[0] + ".third_line " + output + ".qual > " + input.split(sep=".")[0] + ".abc_decomp"
+    command = "paste -d '\n' " + output + ".id " + output + ".seq " + input.split(sep=".")[0] + ".third_line " + output + ".qual > " + input.split(sep=".")[0] + ".cle_decomp"
     subprocess.check_call(command, shell=True)  
        
     command = "rm -f " + output + ".id"
