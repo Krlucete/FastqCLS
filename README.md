@@ -20,13 +20,13 @@ The general compression command is:
 
 The general decompression command is:
 
-```python3 dcls.py (options) -i [input file] ```
+```python3 cls_decomp.py (options) -i [input file] ```
 
 If you wish, you can use the pypy compiler.
 
 ```pypy cls.py (options) -i [input file] ```
 
-```pypy dcls.py (options) -i [input file] ```
+```pypy cls_decomp.py (options) -i [input file] ```
 
 
 Input and output must be files, currently it does not process standard input or output.
