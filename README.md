@@ -15,18 +15,18 @@ FastqCLS is used from the command line.
 
 The general compression command is:
 
-```python3 cle (options) -i [input file] ```
+```python3 cls.py (options) -i [input file] ```
 
 
 The general decompression command is:
 
-```python3 cle_decomp (options) -i [input file] ```
+```python3 dcls.py (options) -i [input file] ```
 
 If you wish, you can use the pypy compiler.
 
-```pypy decle (options) -i [input file] ```
+```pypy cls.py (options) -i [input file] ```
 
-```pypy cle (options) -i [input file] ```
+```pypy dcls.py (options) -i [input file] ```
 
 
 Input and output must be files, currently it does not process standard input or output.
