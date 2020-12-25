@@ -7,7 +7,7 @@ import random
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', help='input file path')
-    parser.add_argument('-t', help='num of threads', default='0')
+    parser.add_argument('-t', help='num of threads', default='8')
     args = parser.parse_args()
     
     input = args.i
@@ -16,13 +16,11 @@ if __name__ == '__main__':
     hash = random.getrandbits(128)
     output = args.i + str(hash) 
 
-    command = "zpaq -t" + threads + " -f x " + input
+    command = "zpaq x " + input + " -threads " + threads
     subprocess.check_call(command, shell=True) 
     
     command = "paste -d ' ' " + input.split(sep=".")[0] + ".sorted_seq_id " + input.split(sep=".")[0] + ".sorted_seq | sort -V > " + output + ".sort_seq"
     subprocess.check_call(command, shell=True)     
-    command = "paste -d ' ' " + input.split(sep=".")[0] + ".sorted_qual_id " + input.split(sep=".")[0] + ".sorted_qual | sort -V | cut -f 2 -d ' ' > " + output + ".qual"
-    subprocess.check_call(command, shell=True)      
 
     command = "rm -f " + input.split(sep=".")[0]+".sorted_seq"
     subprocess.check_call(command, shell=True)
@@ -49,7 +47,7 @@ if __name__ == '__main__':
     command = "rm -f "+input.split(sep=".")[0]+".id_back"
     subprocess.check_call(command, shell=True)   
     
-    command = "paste -d '\n' " + output + ".id " + output + ".seq " + input.split(sep=".")[0] + ".third_line " + output + ".qual > " + input.split(sep=".")[0] + ".cle_decomp"
+    command = "paste -d '\n' " + output + ".id " + output + ".seq " + input.split(sep=".")[0] + ".third_line " + input.split(sep=".")[0] + ".quality > " + input.split(sep=".")[0] + ".cle_decomp"
     subprocess.check_call(command, shell=True)  
        
     command = "rm -f " + output + ".id"
@@ -58,5 +56,5 @@ if __name__ == '__main__':
     subprocess.check_call(command, shell=True)
     command = "rm -f " + input.split(sep=".")[0] + ".third_line"
     subprocess.check_call(command, shell=True)
-    command = "rm -f " + output + ".qual"
+    command = "rm -f " + output + ".quality"
     subprocess.check_call(command, shell=True)
