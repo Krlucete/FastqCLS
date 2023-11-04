@@ -7,7 +7,7 @@ The robust FASTQ-specific compressor for recent generation data via score-based 
 FastqCLS has no external dependencies, using only linux commands and general compressor zpaq.
 
 FastqCLS can be used on docker hub. 
-```docker pull krlucete/fastqcls:latest```
+```docker pull krlucete/fastqcls:1.3```
 
 ## Usage
 
