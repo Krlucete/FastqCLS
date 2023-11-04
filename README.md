@@ -8,15 +8,20 @@ FastqCLS has no external dependencies, using only linux commands and general com
 
 FastqCLS can be used on docker hub. 
 ```docker pull krlucete/fastqcls:1.3```
+```docker container run -itd --name [Your Container Name] krlucete/fastqcls:1.3```
+```docker attach [Your Container Name]```
+```cd zpaq-master ```
+```make clean```
+```make install```
 
 ## Usage
 
 FastqCLS is used from the command line. 
+Please make sure to move the file to the same path as the command.
 
 The general compression command is:
 
 ```python3 cls.py (options) -i [input file] ```
-
 
 The general decompression command is:
 
